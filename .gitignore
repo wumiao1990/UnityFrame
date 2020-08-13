@@ -2111,3 +2111,5 @@
 /Unity/.idea/
 /Unity/Unity.sln.DotSettings.user
 /Unity/obj/
+/Unity/Assets/XLua/Gen/
+/Unity/obj/Debug/
