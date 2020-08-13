@@ -2107,3 +2107,7 @@
 /Unity/UnityVS.Unity.sln
 /Unity/Sirenix.OdinInspector.CompatibilityLayer.Editor.csproj
 /Unity/Sirenix.OdinInspector.CompatibilityLayer.csproj
+/Unity/obj/
+/Unity/.idea/
+/Unity/Unity.sln.DotSettings.user
+/Unity/obj/
