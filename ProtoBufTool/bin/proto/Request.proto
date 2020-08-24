@@ -1,0 +1,24 @@
+syntax = "proto3";
+// 生成的包名
+option java_package="com.lenovo.cloud.netty.protobuf";
+//生成的java名
+option java_outer_classname = "RequestFile";
+
+message RequestMsg {
+
+    string fileName = 1;
+
+    int64 starPos = 2;
+
+    bytes bytes = 3;
+
+    int32 sendLength = 4;
+
+    string fileType = 5;
+
+    int64 fileSize = 6;
+	
+    string filePath = 7;
+
+} 
+
