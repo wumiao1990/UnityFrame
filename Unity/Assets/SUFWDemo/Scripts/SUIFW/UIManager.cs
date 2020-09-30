@@ -14,8 +14,11 @@
  *    2： 方法的“单一职责”
  *     
  */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using SDGame.UITools;
 using UnityEngine;
 
 namespace SUIFW
@@ -259,10 +262,15 @@ namespace SUIFW
             {
                 goCloneUIPrefabs = ResourcesMgr.GetInstance().LoadAsset(strUIFormPaths, false);
             }
+            
+            IBindableUI uiA = Activator.CreateInstance(Type.GetType("DemoProject." + uiFormName)) as IBindableUI;
+            
             //设置“UI克隆体”的父节点（根据克隆体中带的脚本中不同的“位置信息”）
             if (_TraCanvasTransfrom != null && goCloneUIPrefabs != null)
             {
-                baseUiForm = goCloneUIPrefabs.GetComponent<BaseUIForm>();
+                baseUiForm = uiA as BaseUIForm;
+                baseUiForm.Source = goCloneUIPrefabs;
+                //baseUiForm = goCloneUIPrefabs.GetComponent<BaseUIForm>();
                 if (baseUiForm == null)
                 {
                     Debug.Log("baseUiForm==null! ,请先确认窗体预设对象上是否加载了baseUIForm的子类脚本！ 参数 uiFormName=" + uiFormName);
@@ -315,7 +323,7 @@ namespace SUIFW
             if (baseUIFormFromAllCache!=null)
 	        {
                 _DicCurrentShowUIForms.Add(uiFormName, baseUIFormFromAllCache);
-                baseUIFormFromAllCache.Display();           //显示当前窗体
+                DisPlay(baseUIFormFromAllCache);
             }
 	    }
  
@@ -339,7 +347,7 @@ namespace SUIFW
             if (baseUIForm!=null)
             {
                 //当前窗口显示状态
-                baseUIForm.Display();
+                DisPlay(baseUIForm);
                 //把指定的UI窗体，入栈操作。
                 _StaCurrentUIForms.Push(baseUIForm);
             }else{
@@ -417,7 +425,7 @@ namespace SUIFW
             {
                 _DicCurrentShowUIForms.Add(strUIName, baseUIFormFromALL);
                 //窗体显示
-                baseUIFormFromALL.Display();
+                DisPlay(baseUIFormFromALL);
             }
         }
 
@@ -481,5 +489,10 @@ namespace SUIFW
 
 	    #endregion
 
+        void DisPlay(BaseUIForm baseForm)
+        {
+            baseForm.Display();
+        }
+	    
     }//class_end
 }

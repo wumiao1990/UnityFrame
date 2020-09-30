@@ -1,9 +1,8 @@
 ﻿using SDGame;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using SDGame.UITools;
+using SUIFW;
 
 public class UIManagerControl : UnitySingleton<UIManagerControl>
 {
@@ -19,7 +18,7 @@ public class UIManagerControl : UnitySingleton<UIManagerControl>
             ctrlData.BindDataTo(uiA);
         }
 
-        (uiA as UIA).CheckBinding();
+        (uiA as BaseUIForm).Source = go;
 	}
 	
 	void Update () {

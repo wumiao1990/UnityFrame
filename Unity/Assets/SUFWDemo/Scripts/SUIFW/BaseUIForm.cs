@@ -17,14 +17,33 @@
  *    
  *   
  */
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
+using SDGame.UITools;
 using UnityEngine;
 
 namespace SUIFW
 {
-	public class BaseUIForm : MonoBehaviour {
+	public class BaseUIForm : ICBSource<GameObject>, IBindableUI {
+		
+		private GameObject _gameObject;
+		public GameObject gameObject
+		{
+			get
+			{
+				return _gameObject;
+			}
+		}
+		public GameObject Source
+		{
+			get
+			{
+				return _gameObject;
+			}
+			set
+			{
+				_gameObject = value;
+			}
+		}
+		
         /*字段*/
         private UIType _CurrentUIType=new UIType();
 

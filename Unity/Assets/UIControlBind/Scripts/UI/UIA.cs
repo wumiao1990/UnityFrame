@@ -1,8 +1,10 @@
-﻿using UnityEngine.UI;
+﻿using System.Runtime.CompilerServices;
+using UnityEngine.UI;
 using UnityEngine;
 using SDGame.UITools;
+using SUIFW;
 
-public class UIA : IBindableUI
+public class UIA : BaseUIForm
 {
     #region 控件绑定变量声明，自动生成请勿手改
     [ControlBinding]
