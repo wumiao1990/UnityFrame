@@ -1,7 +1,7 @@
 ﻿using SDGame;
 using System;
 using UnityEngine;
-using SDGame.UITools;
+using UITools;
 using SUIFW;
 
 public class UIManagerControl : UnitySingleton<UIManagerControl>

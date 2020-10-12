@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using UnityEngine.UI;
 using UnityEngine;
-using SDGame.UITools;
+using UITools;
 using SUIFW;
 
 public class UIA : BaseUIForm

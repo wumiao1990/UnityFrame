@@ -18,7 +18,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using SDGame.UITools;
+using UITools;
 using UnityEngine;
 
 namespace SUIFW

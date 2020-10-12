@@ -12,7 +12,7 @@
  */
 using System.Collections;
 using System.Collections.Generic;
-using SDGame.UITools;
+using UITools;
 using SUIFW;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,16 +50,24 @@ namespace DemoProject
             
             //string strDisplayInfo = LauguageMgr.GetInstance().ShowText("LogonSystem");
 
-//            if (TxtLogonName)
-//            {
-//                TxtLogonName.text = Show("LogonSystem");
-//            }
+            if (TxtTitle)
+            {
+                TxtTitle.text = Show("LogonSystem");
+            }
 //            if (TxtLogonNameByBtn)
 //            {
 //                TxtLogonNameByBtn.text = Show("LogonSystem");
 //            }
 
             //ActiveUpdate = true;
+
+            CoroutineMgr.Instance.StartCoroutine(CoroutineTest());
+        }
+
+        IEnumerator CoroutineTest()
+        {
+            yield return new WaitForSeconds(1);
+            Debug.LogError("CoroutineTest");
         }
 
         public override void Freeze()

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SDGame.UITools;
+using UITools;
 
 public class UIB : IBindableUI
 {

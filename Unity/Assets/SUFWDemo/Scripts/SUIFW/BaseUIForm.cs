@@ -17,7 +17,7 @@
  *    
  *   
  */
-using SDGame.UITools;
+using UITools;
 using UnityEngine;
 
 namespace SUIFW

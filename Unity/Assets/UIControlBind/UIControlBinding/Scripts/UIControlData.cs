@@ -30,7 +30,7 @@ using XLua;
 using UnityEditor;
 #endif
 
-namespace SDGame.UITools
+namespace UITools
 {
     /// <summary>
     /// 单个控件数据

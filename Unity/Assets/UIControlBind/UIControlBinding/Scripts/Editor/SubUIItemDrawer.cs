@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace SDGame.UITools
+namespace UITools
 {
     public class SubUIItemDrawer
     {
