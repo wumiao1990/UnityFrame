@@ -270,6 +270,11 @@ namespace SUIFW
             {
                 baseUiForm = uiA as BaseUIForm;
                 baseUiForm.Source = goCloneUIPrefabs;
+                UIControlData ctrlData = goCloneUIPrefabs.GetComponent<UIControlData>();
+                if(ctrlData != null)
+                {
+                    ctrlData.BindDataTo(baseUiForm);
+                }
                 //baseUiForm = goCloneUIPrefabs.GetComponent<BaseUIForm>();
                 if (baseUiForm == null)
                 {

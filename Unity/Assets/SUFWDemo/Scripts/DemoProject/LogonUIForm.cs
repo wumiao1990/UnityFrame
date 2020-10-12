@@ -21,21 +21,22 @@ namespace DemoProject
 {
     public class LogonUIForm : BaseUIForm
     {
-        public Text TxtLogonName;                           //登陆名称
-        public Text TxtLogonNameByBtn;                      //登陆名称(Button)
-        
         #region 控件绑定变量声明，自动生成请勿手改
-        #pragma warning disable 0649
+#pragma warning disable 0649
         [ControlBinding]
         public Button Btn_OK;
+        [ControlBinding]
+        public Text TxtTitle;
 
-        #pragma warning restore 0649
+#pragma warning restore 0649
         #endregion
 
 
-
-        public void Awake()
+        public override void Display()
         {
+            base.Display();
+            Debug.LogError("Display");
+            
             //定义本窗体的性质(默认数值，可以不写)
             base.CurrentUIType.UIForms_Type = UIFormType.Normal;
             base.CurrentUIType.UIForms_ShowMode = UIFormShowMode.Normal;
@@ -45,29 +46,20 @@ namespace DemoProject
             //Lamda表达式写法
             RigisterButtonObjectEvent("Btn_OK", 
                 p=>OpenUIForm(ProConst.SELECT_HERO_FORM)
-                );
-
-        }
-
-
-        public void Start()
-        {
+            );
+            
             //string strDisplayInfo = LauguageMgr.GetInstance().ShowText("LogonSystem");
 
-            if (TxtLogonName)
-            {
-                TxtLogonName.text = Show("LogonSystem");
-            }
-            if (TxtLogonNameByBtn)
-            {
-                TxtLogonNameByBtn.text = Show("LogonSystem");
-            }
-        }
+//            if (TxtLogonName)
+//            {
+//                TxtLogonName.text = Show("LogonSystem");
+//            }
+//            if (TxtLogonNameByBtn)
+//            {
+//                TxtLogonNameByBtn.text = Show("LogonSystem");
+//            }
 
-        public override void Display()
-        {
-            base.Display();
-            Debug.LogError("Display");
+            //ActiveUpdate = true;
         }
 
         public override void Freeze()
@@ -86,6 +78,12 @@ namespace DemoProject
         {
             base.Hiding();
             Debug.LogError("Hiding");
+        }
+        
+        protected override void onUpdate()
+        {
+            base.onUpdate();
+            Debug.LogError("onUpdate");
         }
     }
 }

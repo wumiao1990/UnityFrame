@@ -189,5 +189,139 @@ namespace SUIFW
 
 	    #endregion
 
+	    #region Update实现
+		private bool _isActiveUpdate = false;
+        protected bool ActiveUpdate
+        {
+            set
+            {
+                if (value)
+                {
+                    if (_isActiveUpdate) return;
+                    UpdateHandle hd = Source.GetComponent<UpdateHandle>();
+                    if (hd == null)
+                    {
+                        hd = Source.AddComponent<UpdateHandle>();
+                    }
+                    else
+                    {
+                        hd.enabled = true;
+                    }
+                    hd.UpdateDelegete = Update;
+                    _isActiveUpdate = value;
+                }
+                else
+                {
+                    UpdateHandle hd = Source.GetComponent<UpdateHandle>();
+                    if (hd != null)
+                    {
+                        hd.enabled = false;
+                    }
+                    _isActiveUpdate = value;
+                }
+            }
+        }
+        
+        private bool _isActiveLateUpdate = false;
+        protected bool ActiveLateUpdate
+        {
+            set
+            {
+                if (value)
+                {
+                    if (_isActiveLateUpdate) return;
+                    UpdateHandle hd = Source.GetComponent<UpdateHandle>();
+                    if (hd == null)
+                    {
+                        hd = Source.AddComponent<UpdateHandle>();
+                    }
+                    else
+                    {
+                        hd.enabled = true;
+                    }
+                    hd.LateUpdateDelegete = LateUpdate;
+                    _isActiveLateUpdate = value;
+                }
+                else
+                {
+                    UpdateHandle hd = Source.GetComponent<UpdateHandle>();
+                    if (hd != null)
+                    {
+                        hd.enabled = false;
+                    }
+                    _isActiveLateUpdate = value;
+                }
+            }
+        }
+
+
+        private bool _isActiveFixedUpdate = false;
+        protected bool ActiveFixedUpdate
+        {
+            set
+            {
+                if (value)
+                {
+                    if (!_isActiveFixedUpdate)
+                    {
+                        UpdateHandle hd = Source.GetComponent<UpdateHandle>();
+                        if (hd == null)
+                        {
+                            hd = Source.AddComponent<UpdateHandle>();
+                        }
+                        else
+                        {
+                            hd.enabled = true;
+                        }
+                        hd.FixedUpdateDelegete = FixedUpdate;
+
+                    }
+
+                    _isActiveFixedUpdate = value;
+                }
+                else
+                {
+                    UpdateHandle hd = Source.GetComponent<UpdateHandle>();
+                    if (hd != null)
+                    {
+                        hd.enabled = false;
+                    }
+                    _isActiveFixedUpdate = value;
+                }
+            }
+        }
+
+        protected void Update()
+        {
+            onUpdate();
+        }
+
+        protected virtual void onUpdate()
+        {
+
+        }
+
+        protected void LateUpdate()
+        {
+            onLateUpdate();
+        }
+
+        protected virtual void onLateUpdate()
+        {
+
+        }
+
+
+        protected void FixedUpdate()
+        {
+            onFixedUpdate();
+        }
+
+        protected virtual void onFixedUpdate()
+        {
+
+        }
+
+	    #endregion
     }
 }
