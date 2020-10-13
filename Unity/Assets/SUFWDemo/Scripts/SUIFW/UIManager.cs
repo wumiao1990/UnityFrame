@@ -93,23 +93,23 @@ namespace SUIFW
         /// <param name="uiFormName">UI窗体预设的名称</param>
 	    public void ShowUIForms(string uiFormName)
         {
-            BaseUIForm baseUIForms=null;                    //UI窗体基类
+            BaseUIForm baseUiForm=null;                    //UI窗体基类
 
             //参数的检查
             if (string.IsNullOrEmpty(uiFormName)) return;
 
             //根据UI窗体的名称，加载到“所有UI窗体”缓存集合中
-            baseUIForms = LoadFormsToAllUIFormsCatch(uiFormName);
-            if (baseUIForms == null) return;
+            baseUiForm = LoadFormsToAllUIFormsCatch(uiFormName);
+            if (baseUiForm == null) return;
 
             //是否清空“栈集合”中得数据
-            if (baseUIForms.CurrentUIType.IsClearStack)
+            if (baseUiForm.CurrentUIType.IsClearStack)
             {
                 ClearStackArray();
             }
-
+         
             //根据不同的UI窗体的显示模式，分别作不同的加载处理
-            switch (baseUIForms.CurrentUIType.UIForms_ShowMode)
+            switch (baseUiForm.CurrentUIType.UIForms_ShowMode)
             {                    
                 case UIFormShowMode.Normal:                 //“普通显示”窗口模式
                     //把当前窗体加载到“当前窗体”集合中。
@@ -263,7 +263,7 @@ namespace SUIFW
                 goCloneUIPrefabs = ResourcesMgr.GetInstance().LoadAsset(strUIFormPaths, false);
             }
             
-            IBindableUI uiA = Activator.CreateInstance(Type.GetType("DemoProject." + uiFormName)) as IBindableUI;
+            IBindableUI uiA = Activator.CreateInstance(Type.GetType(uiFormName)) as IBindableUI;
             
             //设置“UI克隆体”的父节点（根据克隆体中带的脚本中不同的“位置信息”）
             if (_TraCanvasTransfrom != null && goCloneUIPrefabs != null)
@@ -281,6 +281,8 @@ namespace SUIFW
                     Debug.Log("baseUiForm==null! ,请先确认窗体预设对象上是否加载了baseUIForm的子类脚本！ 参数 uiFormName=" + uiFormName);
                     return null;
                 }
+                baseUiForm.OnReady();
+                
                 switch (baseUiForm.CurrentUIType.UIForms_Type)
                 {
                     case UIFormType.Normal:                 //普通窗体节点

@@ -11,87 +11,88 @@
  *   
  */
 using System.Collections;
-using System.Collections.Generic;
 using UITools;
 using SUIFW;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DemoProject
+
+public class LogonUIForm : BaseUIForm
 {
-    public class LogonUIForm : BaseUIForm
-    {
-        #region 控件绑定变量声明，自动生成请勿手改
+    #region 控件绑定变量声明，自动生成请勿手改
 #pragma warning disable 0649
-        [ControlBinding]
-        public Button Btn_OK;
-        [ControlBinding]
-        public Text TxtTitle;
+    [ControlBinding]
+    public Button Btn_OK;
+    [ControlBinding]
+    public Text TxtTitle;
 
 #pragma warning restore 0649
-        #endregion
+    #endregion
 
+    public override void OnReady()
+    {
+        //定义本窗体的性质(默认数值，可以不写)
+        base.CurrentUIType.UIForms_Type = UIFormType.Normal;
+        base.CurrentUIType.UIForms_ShowMode = UIFormShowMode.Normal;
+        base.CurrentUIType.UIForm_LucencyType = UIFormLucenyType.Lucency;
+    }
+    
+    public override void Display()
+    {
+        base.Display();
+        
+        Debug.LogError("Display");
+        
+        /* 给按钮注册事件 */
+        //RigisterButtonObjectEvent("Btn_OK", LogonSys);
+        //Lamda表达式写法
+        RigisterButtonObjectEvent("Btn_OK", 
+            p=>OpenUIForm(ProConst.SELECT_HERO_FORM)
+        );
+        
+        //string strDisplayInfo = LauguageMgr.GetInstance().ShowText("LogonSystem");
 
-        public override void Display()
+        if (TxtTitle)
         {
-            base.Display();
-            Debug.LogError("Display");
-            
-            //定义本窗体的性质(默认数值，可以不写)
-            base.CurrentUIType.UIForms_Type = UIFormType.Normal;
-            base.CurrentUIType.UIForms_ShowMode = UIFormShowMode.Normal;
-            base.CurrentUIType.UIForm_LucencyType = UIFormLucenyType.Lucency;
-            /* 给按钮注册事件 */
-            //RigisterButtonObjectEvent("Btn_OK", LogonSys);
-            //Lamda表达式写法
-            RigisterButtonObjectEvent("Btn_OK", 
-                p=>OpenUIForm(ProConst.SELECT_HERO_FORM)
-            );
-            
-            //string strDisplayInfo = LauguageMgr.GetInstance().ShowText("LogonSystem");
-
-            if (TxtTitle)
-            {
-                TxtTitle.text = Show("LogonSystem");
-            }
+            TxtTitle.text = Show("LogonSystem");
+        }
 //            if (TxtLogonNameByBtn)
 //            {
 //                TxtLogonNameByBtn.text = Show("LogonSystem");
 //            }
 
-            //ActiveUpdate = true;
+        //ActiveUpdate = true;
 
-            CoroutineMgr.Instance.StartCoroutine(CoroutineTest());
-        }
+        CoroutineMgr.Instance.StartCoroutine(CoroutineTest());
+    }
 
-        IEnumerator CoroutineTest()
-        {
-            yield return new WaitForSeconds(1);
-            Debug.LogError("CoroutineTest");
-        }
+    IEnumerator CoroutineTest()
+    {
+        yield return new WaitForSeconds(1);
+        Debug.LogError("CoroutineTest");
+    }
 
-        public override void Freeze()
-        {
-            base.Freeze();
-            Debug.LogError("Freeze");
-        }
+    public override void Freeze()
+    {
+        base.Freeze();
+        Debug.LogError("Freeze");
+    }
 
-        public override void Redisplay()
-        {
-            base.Redisplay();
-            Debug.LogError("Redisplay");
-        }
+    public override void Redisplay()
+    {
+        base.Redisplay();
+        Debug.LogError("Redisplay");
+    }
 
-        public override void Hiding()
-        {
-            base.Hiding();
-            Debug.LogError("Hiding");
-        }
-        
-        protected override void onUpdate()
-        {
-            base.onUpdate();
-            Debug.LogError("onUpdate");
-        }
+    public override void Hiding()
+    {
+        base.Hiding();
+        Debug.LogError("Hiding");
+    }
+    
+    protected override void onUpdate()
+    {
+        base.onUpdate();
+        Debug.LogError("onUpdate");
     }
 }

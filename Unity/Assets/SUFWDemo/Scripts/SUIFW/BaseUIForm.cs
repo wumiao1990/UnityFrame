@@ -56,8 +56,13 @@ namespace SUIFW
 	    }
 
 
-        #region  窗体的四种(生命周期)状态
+        #region  窗体的五种(生命周期)状态
 
+        /// <summary>
+        /// 准备状态
+        /// </summary>
+        public virtual void OnReady(){}
+        
         /// <summary>
         /// 显示状态
         /// </summary>

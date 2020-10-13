@@ -15,31 +15,32 @@ using System.Collections.Generic;
 using SUIFW;
 using UnityEngine;
 
-namespace DemoProject
+public class SelectHeroUIForm : BaseUIForm
 {
-    public class SelectHeroUIForm : BaseUIForm
+    public override void OnReady()
     {
+        Log.SyncLogCatchToFile();
+        //窗体的性质
+        CurrentUIType.UIForms_ShowMode = UIFormShowMode.HideOther;
+    }
+    
+    public override void Display()
+    {
+        base.Display();
+        
+        //注册进入主城的事件
+        RigisterButtonObjectEvent("BtnConfirm",
+            p =>
+            {
+                OpenUIForm(ProConst.MAIN_CITY_UIFORM);
+                OpenUIForm(ProConst.HERO_INFO_UIFORM);
+            }
 
-        public void Awake()
-        {
-            Log.SyncLogCatchToFile();
-            //窗体的性质
-            CurrentUIType.UIForms_ShowMode = UIFormShowMode.HideOther;
+        );
 
-            //注册进入主城的事件
-            RigisterButtonObjectEvent("BtnConfirm",
-                p =>
-                {
-                    OpenUIForm(ProConst.MAIN_CITY_UIFORM);
-                    OpenUIForm(ProConst.HERO_INFO_UIFORM);
-                }
-
-                );
-
-            //注册返回上一个页面
-            RigisterButtonObjectEvent("BtnClose",
-                m=>CloseUIForm()
-                );
-        }
+        //注册返回上一个页面
+        RigisterButtonObjectEvent("BtnClose",
+            m=>CloseUIForm()
+        );
     }
 }
