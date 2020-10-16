@@ -19,9 +19,17 @@ using UnityEngine;
 public class StartProject : MonoBehaviour {
 
 	void Start () {
-        Log.Write(GetType()+"/Start()/");
+        
+        gameObject.AddComponent<LuaEnvManager>();
+        
+        NgameLua.Hotfix();
+
+        NgameLua.DoFileString("Main");
+        LuaEnvManager.Instanse.InitGlobalLuaFunc();
+        UIPathHelper.Init();
+        
         //加载登陆窗体
-        UIManager.GetInstance().ShowUIForms(ProConst.LOGON_FROMS);         			
+        UIManager.GetInstance().ShowUIForms(ProConst.LOGON_FROMS);
 	}
 	
 }

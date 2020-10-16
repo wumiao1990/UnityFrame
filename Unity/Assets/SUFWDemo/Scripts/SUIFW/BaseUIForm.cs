@@ -109,7 +109,14 @@ namespace SUIFW
 	    {
             this.gameObject.SetActive(true);
         }
-
+        
+        /// <summary>
+        /// 销毁
+        /// </summary>
+        protected virtual void OnDispose()
+        {
+            
+        }
 
         #endregion
 

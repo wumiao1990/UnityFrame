@@ -20,6 +20,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UITools;
 using UnityEngine;
+using XLua;
 
 namespace SUIFW
 {
@@ -262,19 +263,29 @@ namespace SUIFW
             {
                 goCloneUIPrefabs = ResourcesMgr.GetInstance().LoadAsset(strUIFormPaths, false);
             }
+
+            CBLuaPanel luaPanel = GetLuaPanel(uiFormName);
+            if (luaPanel == null)
+            {
+                //C# 脚本逻辑
+                IBindableUI uiA = Activator.CreateInstance(Type.GetType(uiFormName)) as IBindableUI;
+                baseUiForm = uiA as BaseUIForm;
+            }
+            else
+            {
+                //Lua 逻辑
+                baseUiForm = luaPanel as BaseUIForm;
+            }
             
-            IBindableUI uiA = Activator.CreateInstance(Type.GetType(uiFormName)) as IBindableUI;
-            
+            baseUiForm.Source = goCloneUIPrefabs;
+            UIControlData ctrlData = goCloneUIPrefabs.GetComponent<UIControlData>();
+            if(ctrlData != null)
+            {
+                ctrlData.BindDataTo(baseUiForm);
+            }
             //设置“UI克隆体”的父节点（根据克隆体中带的脚本中不同的“位置信息”）
             if (_TraCanvasTransfrom != null && goCloneUIPrefabs != null)
             {
-                baseUiForm = uiA as BaseUIForm;
-                baseUiForm.Source = goCloneUIPrefabs;
-                UIControlData ctrlData = goCloneUIPrefabs.GetComponent<UIControlData>();
-                if(ctrlData != null)
-                {
-                    ctrlData.BindDataTo(baseUiForm);
-                }
                 //baseUiForm = goCloneUIPrefabs.GetComponent<BaseUIForm>();
                 if (baseUiForm == null)
                 {
@@ -499,6 +510,16 @@ namespace SUIFW
         void DisPlay(BaseUIForm baseForm)
         {
             baseForm.Display();
+        }
+        
+        private CBLuaPanel GetLuaPanel(string key)
+        {
+            string luaPath = UIPathHelper.GetLuaPath(key);
+            LuaTable scriptEnv = NgameLua.Load(luaPath);
+
+            if (scriptEnv == null) return null;
+            CBLuaPanel pnl = new CBLuaPanel(luaPath, scriptEnv);
+            return pnl;
         }
 	    
     }//class_end
