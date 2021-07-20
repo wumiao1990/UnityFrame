@@ -19,6 +19,7 @@
  */
 using UITools;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SUIFW
 {
@@ -55,6 +56,7 @@ namespace SUIFW
 	        set { _CurrentUIType = value; }
 	    }
 
+        public string PanelName;
 
         #region  窗体的五种(生命周期)状态
 
@@ -129,7 +131,21 @@ namespace SUIFW
         /// <param name="delHandle">委托：需要注册的方法</param>
 	    protected void RigisterButtonObjectEvent(string buttonName,EventTriggerListener.VoidDelegate  delHandle)
 	    {
-            GameObject goButton = UnityHelper.FindTheChildNode(this.gameObject, buttonName).gameObject;
+            Component goButton = UnityHelper.FindTheChildNode(this.gameObject, buttonName);
+            //给按钮注册事件方法
+            if (goButton != null)
+            {
+                EventTriggerListener.Get(goButton).onClick = delHandle;
+            }	    
+        }
+        
+        /// <summary>
+        /// 注册按钮事件
+        /// </summary>
+        /// <param name="buttonName">按钮节点名称</param>
+        /// <param name="delHandle">委托：需要注册的方法</param>
+        protected void RigisterButtonObjectEvent(Component goButton,EventTriggerListener.VoidDelegate  delHandle)
+        {
             //给按钮注册事件方法
             if (goButton != null)
             {
@@ -142,7 +158,7 @@ namespace SUIFW
         /// </summary>
         /// <param name="uiFormName"></param>
 	    protected void OpenUIForm(string uiFormName)
-	    {
+        {
             UIManager.GetInstance().ShowUIForms(uiFormName);
         }
 
@@ -153,8 +169,7 @@ namespace SUIFW
 	    {
 	        string strUIFromName = string.Empty;            //处理后的UIFrom 名称
 	        int intPosition = -1;
-
-            strUIFromName=GetType().ToString();             //命名空间+类名
+            strUIFromName = PanelName;//GetType().ToString();             //命名空间+类名
             intPosition=strUIFromName.IndexOf('.');
             if (intPosition!=-1)
             {

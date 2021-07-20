@@ -71,7 +71,10 @@ public class LuaEnvManager : MonoBehaviour
     public void Clean()
     {
         updateLua = null;
-        towerFunction.Dispose();
-        towerFunction = null;
+        if (towerFunction != null)
+        {
+            towerFunction.Dispose();
+            towerFunction = null;    
+        }
     }
 }

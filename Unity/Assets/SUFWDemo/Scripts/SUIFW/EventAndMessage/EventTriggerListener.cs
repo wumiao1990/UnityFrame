@@ -35,12 +35,12 @@ namespace SUIFW
         /// <returns>
         /// 监听器
         /// </returns>
-        public static EventTriggerListener Get(GameObject go)
+        public static EventTriggerListener Get(Component go)
         {
             EventTriggerListener lister = go.GetComponent<EventTriggerListener>();
             if (lister==null)
             {
-                lister = go.AddComponent<EventTriggerListener>();                
+                lister = go.gameObject.AddComponent<EventTriggerListener>();                
             }
             return lister;
         }

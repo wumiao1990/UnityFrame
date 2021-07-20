@@ -103,6 +103,7 @@ namespace SUIFW
             baseUiForm = LoadFormsToAllUIFormsCatch(uiFormName);
             if (baseUiForm == null) return;
 
+            baseUiForm.PanelName = uiFormName;
             //是否清空“栈集合”中得数据
             if (baseUiForm.CurrentUIType.IsClearStack)
             {
@@ -263,8 +264,9 @@ namespace SUIFW
             {
                 goCloneUIPrefabs = ResourcesMgr.GetInstance().LoadAsset(strUIFormPaths, false);
             }
-
-            CBLuaPanel luaPanel = GetLuaPanel(uiFormName);
+            
+            UIControlData ctrlData = goCloneUIPrefabs.GetComponent<UIControlData>();
+            CBLuaPanel luaPanel = GetLuaPanel(uiFormName, ctrlData);
             if (luaPanel == null)
             {
                 //C# 脚本逻辑
@@ -276,9 +278,7 @@ namespace SUIFW
                 //Lua 逻辑
                 baseUiForm = luaPanel as BaseUIForm;
             }
-            
             baseUiForm.Source = goCloneUIPrefabs;
-            UIControlData ctrlData = goCloneUIPrefabs.GetComponent<UIControlData>();
             if(ctrlData != null)
             {
                 ctrlData.BindDataTo(baseUiForm);
@@ -512,13 +512,13 @@ namespace SUIFW
             baseForm.Display();
         }
         
-        private CBLuaPanel GetLuaPanel(string key)
+        private CBLuaPanel GetLuaPanel(string key, UIControlData uiControlData)
         {
             string luaPath = UIPathHelper.GetLuaPath(key);
             LuaTable scriptEnv = NgameLua.Load(luaPath);
 
             if (scriptEnv == null) return null;
-            CBLuaPanel pnl = new CBLuaPanel(luaPath, scriptEnv);
+            CBLuaPanel pnl = new CBLuaPanel(luaPath, scriptEnv, uiControlData);
             return pnl;
         }
 	    

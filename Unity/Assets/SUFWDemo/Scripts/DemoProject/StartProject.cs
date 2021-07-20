@@ -20,8 +20,6 @@ public class StartProject : MonoBehaviour {
 
 	void Start () {
         
-        gameObject.AddComponent<LuaEnvManager>();
-        
         NgameLua.Hotfix();
 
         NgameLua.DoFileString("Main");

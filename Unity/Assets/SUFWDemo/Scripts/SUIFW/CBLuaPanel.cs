@@ -3,6 +3,7 @@ using XLua;
 using System;
 using System.Collections.Generic;
 using SUIFW;
+using UITools;
 
 namespace SUIFW
 {
@@ -14,19 +15,24 @@ namespace SUIFW
 
         private Action m_OnReady;
         private Action m_OnDispose;
+        private Action m_OnHiding;
         
-        public CBLuaPanel(string file, LuaTable v)
+        public CBLuaPanel(string file, LuaTable v, UIControlData uiControlData)
         {
             _file = file;
             _table = v;
             _table.Get("OnReady", out m_OnReady);
+            _table.Get("OnHiding", out m_OnHiding);
             _table.Get("OnDispose", out m_OnDispose);
+            
+            uiControlData.BindDataToLua(this, _table);
         }
 
         public override void OnReady()
         {
             base.OnReady();
-            _table.Set<string, Action>("Hiding", Hiding);
+            _table.Set<string, Action>("CloseUIForm", CloseUIForm);
+            _table.Set<string, Action<Component, EventTriggerListener.VoidDelegate>>("RigisterButtonObjectEvent", RigisterButtonObjectEvent);
             _table.Set("Source", Source);
             _table.Set("CsharpPanel", this);
 
@@ -54,6 +60,7 @@ namespace SUIFW
 
             m_OnReady = null;
             m_OnDispose = null;
+            m_OnHiding = null;
            
             if (_table != null)
                 _table.Dispose();
@@ -81,6 +88,25 @@ namespace SUIFW
             {
                 return default(T);
             }
+        }
+        
+        public override void Freeze()
+        {
+            base.Freeze();
+            Debug.LogError("Freeze");
+        }
+
+        public override void Redisplay()
+        {
+            base.Redisplay();
+            Debug.LogError("Redisplay");
+        }
+
+        public override void Hiding()
+        {
+            base.Hiding();
+            if (m_OnHiding != null)
+                m_OnHiding.Invoke();
         }
     }
 }
