@@ -24,6 +24,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
+using SUIFW;
 using XLua;
 
 #if UNITY_EDITOR
@@ -348,7 +349,7 @@ namespace UITools
                     if (!bindUIRef.TryGetTarget(out bindUI))
                         continue;
 
-                    LuaViewRunner luaViewRunner = bindUI as LuaViewRunner;
+                    CBLuaPanel luaViewRunner = bindUI as CBLuaPanel;
                     if (luaViewRunner == null)
                     {
                         UIFieldsInfo fieldInfos = GetUIFieldsInfo(bindUI.GetType());
@@ -362,7 +363,7 @@ namespace UITools
                     }
                     else
                     {
-                        LuaTable luaTable = luaViewRunner.luaUI;
+                        LuaTable luaTable = luaViewRunner._table;
                         if (luaTable == null)
                             continue;
 
