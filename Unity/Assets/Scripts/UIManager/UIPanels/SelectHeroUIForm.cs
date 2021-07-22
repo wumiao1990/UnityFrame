@@ -21,7 +21,7 @@ public class SelectHeroUIForm : BaseUIForm
     {
         Log.SyncLogCatchToFile();
         //窗体的性质
-        CurrentUIType.UIForms_ShowMode = UIFormShowMode.HideOther;
+        CurrentUIType.UIForms_ShowMode = UIFormShowMode.ReverseChange;
     }
     
     public override void Display()
@@ -32,8 +32,7 @@ public class SelectHeroUIForm : BaseUIForm
         RigisterButtonObjectEvent("BtnConfirm",
             p =>
             {
-                OpenUIForm(ProConst.MAIN_CITY_UIFORM);
-                OpenUIForm(ProConst.HERO_INFO_UIFORM);
+                SceneMgr.Instance.LoadSceneAsync("MainScene");
             }
 
         );

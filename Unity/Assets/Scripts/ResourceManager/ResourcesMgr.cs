@@ -1,94 +1,55 @@
-﻿/***
- * 
- *     
- *           主题： 资源加载管理器      
- *    Description: 
- *           功能： 本功能是在Unity的Resources类的基础之上，增加了“缓存”的处理。
- *                  本脚本适用于
- *     
- *     
- *    
- *   
- */
-using UnityEngine;
-using UnityEngine.UI;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
+using libx;
+using SDGame;
+using XLua;
 
-
-namespace SUIFW
+[LuaCallCSharp]
+public class ResourcesMgr : UnitySingleton<ResourcesMgr>
 {
-    public class ResourcesMgr : MonoBehaviour
+    #region Assets
+    /// <summary>
+    /// 加载资源，path需要是全路径
+    /// </summary>
+    /// <param name="path"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public T LoadAsset<T>(string path) where T : UnityEngine.Object
     {
-        /* 字段 */
-        private static ResourcesMgr _Instance;              //本脚本私有单例实例
-        private Hashtable ht = null;                        //容器键值对集合
-
-
-
-
-        /// <summary>
-        /// 得到实例(单例)
-        /// </summary>
-        /// <returns></returns>
-        public static ResourcesMgr GetInstance()
+        AssetRequest assetRequest = Assets.LoadAsset(path, typeof (T));
+        return (T) assetRequest.asset;
+    }
+    
+    /// <summary>
+    /// 异步加载资源，path需要是全路径
+    /// </summary>
+    /// <param name="path"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public Task<T> LoadAssetAsync<T>(string path) where T : UnityEngine.Object
+    {
+        TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
+        AssetRequest assetRequest = Assets.LoadAssetAsync(path, typeof (T));
+            
+        //如果已经加载完成则直接返回结果（适用于编辑器模式下的异步写法和重复加载）
+        if (assetRequest.isDone)
         {
-            if (_Instance == null)
-            {
-                _Instance = new GameObject("_ResourceMgr").AddComponent<ResourcesMgr>();
-            }
-            return _Instance;
+            tcs.SetResult((T) assetRequest.asset);
+            return tcs.Task;
         }
 
-        void Awake()
-        {
-            ht = new Hashtable();
-        }
-
-        /// <summary>
-        /// 调用资源（带对象缓冲技术）
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="path"></param>
-        /// <param name="isCatch"></param>
-        /// <returns></returns>
-        public T LoadResource<T>(string path, bool isCatch) where T : UnityEngine.Object
-        {
-            if (ht.Contains(path))
-            {
-                return ht[path] as T;
-            }
-
-            T TResource = Resources.Load<T>(path);
-            if (TResource == null)
-            {
-                Debug.LogError(GetType() + "/GetInstance()/TResource 提取的资源找不到，请检查。 path=" + path);
-            }
-            else if (isCatch)
-            {
-                ht.Add(path, TResource);
-            }
-
-            return TResource;
-        }
-
-        /// <summary>
-        /// 调用资源（带对象缓冲技术）
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="isCatch"></param>
-        /// <returns></returns>
-        public GameObject LoadAsset(string path, bool isCatch)
-        {
-            GameObject goObj = LoadResource<GameObject>(path, isCatch);
-            GameObject goObjClone = GameObject.Instantiate<GameObject>(goObj);
-            if (goObjClone == null)
-            {
-                Debug.LogError(GetType() + "/LoadAsset()/克隆资源不成功，请检查。 path=" + path);
-            }
-            //goObj = null;//??????????
-            return goObjClone;
-        }       
-    }//Class_end
-}
+        //+=委托链，否则会导致前面完成委托被覆盖
+        assetRequest.completed += (arq) => { tcs.SetResult((T) arq.asset); };
+        return tcs.Task;
+    }
+    
+    /// <summary>
+    /// 卸载资源，path需要是全路径
+    /// </summary>
+    /// <param name="path"></param>
+    public void UnLoadAsset(string path)
+    {
+        Assets.UnloadAsset(path);
+    }
+    #endregion
+    
+}//Class_end

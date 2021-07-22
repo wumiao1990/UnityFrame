@@ -217,8 +217,19 @@ namespace SUIFW
         //初始化加载（根UI窗体）Canvas预设
 	    private void InitRootCanvasLoading()
 	    {
-	        ResourcesMgr.GetInstance().LoadAsset(SysDefine.SYS_PATH_CANVAS, false);
+	        OpenUIPanel(SysDefine.SYS_PATH_CANVAS);
 	    }
+
+        public GameObject OpenUIPanel(string path)
+        {
+            GameObject go = ResourcesMgr.Instance.LoadAsset<GameObject>(ABPathUtilities.GetUIPath(path));
+            GameObject goObjClone = Instantiate(go);
+            if (goObjClone == null)
+            {
+                Debug.LogError(GetType() + "/LoadAsset()/克隆资源不成功，请检查。 path=" + path);
+            }
+            return goObjClone;
+        }
 
         /// <summary>
         /// 根据UI窗体的名称，加载到“所有UI窗体”缓存集合中
@@ -252,17 +263,17 @@ namespace SUIFW
         /// <param name="uiFormName">UI窗体名称</param>
 	    private BaseUIForm LoadUIForm(string uiFormName)
         {
-            string strUIFormPaths = null;                   //UI窗体路径
+            string strUIFormPaths = uiFormName;                   //UI窗体路径
             GameObject goCloneUIPrefabs = null;             //创建的UI克隆体预设
             BaseUIForm baseUiForm=null;                     //窗体基类
 
 
             //根据UI窗体名称，得到对应的加载路径
-            _DicFormsPaths.TryGetValue(uiFormName, out strUIFormPaths);
+            //_DicFormsPaths.TryGetValue(uiFormName, out strUIFormPaths);
             //根据“UI窗体名称”，加载“预设克隆体”
             if (!string.IsNullOrEmpty(strUIFormPaths))
             {
-                goCloneUIPrefabs = ResourcesMgr.GetInstance().LoadAsset(strUIFormPaths, false);
+                goCloneUIPrefabs = OpenUIPanel(strUIFormPaths);
             }
             
             UIControlData ctrlData = goCloneUIPrefabs.GetComponent<UIControlData>();

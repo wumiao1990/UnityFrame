@@ -26,6 +26,14 @@ public class HeroInfoUIForm : BaseUIForm {
 	public override void Display()
 	{
 		base.Display();
+		//注册进入主城的事件
+		RigisterButtonObjectEvent("BtnBackLogin",
+			p =>
+			{
+				SceneMgr.Instance.LoadScene("LoginScene");
+			}
+
+		);
 	}
 	
 }
