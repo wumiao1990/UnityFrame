@@ -165,7 +165,7 @@ namespace SUIFW
         /// <summary>
         /// 关闭当前UI窗体
         /// </summary>
-	    protected void CloseUIForm()
+        protected void CloseUIForm()
 	    {
 	        string strUIFromName = string.Empty;            //处理后的UIFrom 名称
 	        int intPosition = -1;

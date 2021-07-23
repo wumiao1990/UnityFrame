@@ -1,7 +1,21 @@
 ﻿using System.Threading.Tasks;
 using libx;
 using SDGame;
+using UnityEngine;
 using XLua;
+
+public class OnGameObjectDestroy : MonoBehaviour
+{
+    public string resName;
+    public bool isInvalid = false;
+    void OnDestroy()
+    {
+        if (false == isInvalid)
+        {
+            Assets.UnloadAsset(resName);
+        }
+    }
+}
 
 [LuaCallCSharp]
 public class ResourcesMgr : UnitySingleton<ResourcesMgr>
@@ -40,15 +54,6 @@ public class ResourcesMgr : UnitySingleton<ResourcesMgr>
         //+=委托链，否则会导致前面完成委托被覆盖
         assetRequest.completed += (arq) => { tcs.SetResult((T) arq.asset); };
         return tcs.Task;
-    }
-    
-    /// <summary>
-    /// 卸载资源，path需要是全路径
-    /// </summary>
-    /// <param name="path"></param>
-    public void UnLoadAsset(string path)
-    {
-        Assets.UnloadAsset(path);
     }
     #endregion
     

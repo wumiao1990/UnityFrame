@@ -30,7 +30,7 @@ public class HeroInfoUIForm : BaseUIForm {
 		RigisterButtonObjectEvent("BtnBackLogin",
 			p =>
 			{
-				SceneMgr.Instance.LoadScene("LoginScene");
+				SceneMgr.Instance.Load("LoginScene");
 			}
 
 		);

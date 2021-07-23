@@ -36,16 +36,6 @@ public class NgameLua
         }
     }
 
-    public static void FullGC()
-    {
-        if (_uiEnv != null)
-        {
-            _uiEnv.Tick();
-            _uiEnv.FullGc();
-        }
-
-    }
-
     /// <summary>
     /// 清理一些lua相关的功能，例如hotfix，还有一些静态引用的部分
     /// </summary>

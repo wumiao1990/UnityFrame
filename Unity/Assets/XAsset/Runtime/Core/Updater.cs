@@ -597,7 +597,7 @@ namespace libx
                 while (!scene.isDone)
                 {
                     OnProgress(scene.progress);
-                    Assets.UnloadScene(scene);
+                    //Assets.UnloadScene(scene);
                     yield return null;
                 }
             }

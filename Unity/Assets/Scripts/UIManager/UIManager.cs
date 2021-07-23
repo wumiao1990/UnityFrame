@@ -69,9 +69,9 @@ namespace SUIFW
             _DicFormsPaths=new Dictionary<string, string>();
             _StaCurrentUIForms = new Stack<BaseUIForm>();
             //初始化加载（根UI窗体）Canvas预设
-	        InitRootCanvasLoading();
+            GameObject canvas = InitRootCanvasLoading();
 	        //得到UI根节点、全屏节点、固定节点、弹出节点
-            _TraCanvasTransfrom = GameObject.FindGameObjectWithTag(SysDefine.SYS_TAG_CANVAS).transform;
+            _TraCanvasTransfrom = canvas.transform;//GameObject.FindGameObjectWithTag(SysDefine.SYS_TAG_CANVAS).transform;
 	        _TraNormal = UnityHelper.FindTheChildNode(_TraCanvasTransfrom.gameObject, SysDefine.SYS_NORMAL_NODE);
             _TraFixed = UnityHelper.FindTheChildNode(_TraCanvasTransfrom.gameObject, SysDefine.SYS_FIXED_NODE);
             _TraPopUp = UnityHelper.FindTheChildNode(_TraCanvasTransfrom.gameObject, SysDefine.SYS_POPUP_NODE);
@@ -92,16 +92,16 @@ namespace SUIFW
         /// 2: 根据不同的UI窗体的“显示模式”，分别作不同的加载处理
         /// </summary>
         /// <param name="uiFormName">UI窗体预设的名称</param>
-	    public void ShowUIForms(string uiFormName)
+	    public BaseUIForm ShowUIForms(string uiFormName)
         {
             BaseUIForm baseUiForm=null;                    //UI窗体基类
 
             //参数的检查
-            if (string.IsNullOrEmpty(uiFormName)) return;
+            if (string.IsNullOrEmpty(uiFormName)) return null;
 
             //根据UI窗体的名称，加载到“所有UI窗体”缓存集合中
             baseUiForm = LoadFormsToAllUIFormsCatch(uiFormName);
-            if (baseUiForm == null) return;
+            if (baseUiForm == null) return null;
 
             baseUiForm.PanelName = uiFormName;
             //是否清空“栈集合”中得数据
@@ -126,6 +126,8 @@ namespace SUIFW
                 default:
                     break;
             }
+
+            return baseUiForm;
         }
 
         /// <summary>
@@ -215,20 +217,38 @@ namespace SUIFW
 
         #region 私有方法
         //初始化加载（根UI窗体）Canvas预设
-	    private void InitRootCanvasLoading()
+	    private GameObject InitRootCanvasLoading()
 	    {
-	        OpenUIPanel(SysDefine.SYS_PATH_CANVAS);
-	    }
+            GameObject go = OpenUIPanel(SysDefine.SYS_PATH_CANVAS);
+            return go;
+        }
 
-        public GameObject OpenUIPanel(string path)
+        public GameObject OpenUIPanel(string panelName)
         {
-            GameObject go = ResourcesMgr.Instance.LoadAsset<GameObject>(ABPathUtilities.GetUIPath(path));
+            string panelPath = ABPathUtilities.GetUIPath(panelName);
+            GameObject go = ResourcesMgr.Instance.LoadAsset<GameObject>(panelPath);
             GameObject goObjClone = Instantiate(go);
             if (goObjClone == null)
             {
-                Debug.LogError(GetType() + "/LoadAsset()/克隆资源不成功，请检查。 path=" + path);
+                Debug.LogError(GetType() + "/LoadAsset()/克隆资源不成功，请检查。 path=" + panelPath);
             }
+
+            goObjClone.AddComponent<OnGameObjectDestroy>().resName = panelPath;
             return goObjClone;
+        }
+
+        /// <summary>
+        /// 关闭所有窗口
+        /// </summary>
+        public void DestroyAllPanel()
+        {
+            foreach (var v in _DicALLUIForms)
+            {
+                Destroy(v.Value.gameObject);
+            }
+            _DicALLUIForms.Clear();
+            _DicCurrentShowUIForms.Clear();
+            _StaCurrentUIForms.Clear();
         }
 
         /// <summary>

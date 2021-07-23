@@ -22,6 +22,7 @@ public class ProConst {
     public const string SELECT_HERO_FORM = "SelectHeroUIForm";
     public const string PRO_DETAIL_UIFORM = "PropDetailUIForm";
     public const string MARKET_UIFORM = "MarketUIFrom";
+    public const string UILOBBY_LOADINGFROM = "UILobbyLoadingFrom";
 
 
     /* 常量定义： 其他 */

@@ -32,7 +32,7 @@ public class SelectHeroUIForm : BaseUIForm
         RigisterButtonObjectEvent("BtnConfirm",
             p =>
             {
-                SceneMgr.Instance.LoadSceneAsync("MainScene");
+                SceneMgr.Instance.Load("MainScene");
             }
 
         );

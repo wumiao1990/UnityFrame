@@ -1,12 +1,73 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections;
+using System.Threading.Tasks;
 using libx;
 using SDGame;
+using SUIFW;
 using UnityEngine;
 using XLua;
 
 [LuaCallCSharp]
 public class SceneMgr : UnitySingleton<SceneMgr>
 {
+    public void LoadLobbyScene(string SceneName)
+    {
+        UILobbyLoadingFrom uiLobbyLoadingFrom = UIManager.GetInstance().ShowUIForms(ProConst.UILOBBY_LOADINGFROM) as UILobbyLoadingFrom;
+        uiLobbyLoadingFrom.OnEventCallBack = () =>
+        {
+            LoadSceneAsync(SceneName, () =>
+            {
+                uiLobbyLoadingFrom.ClosePanel();
+            });    
+        };
+    }
+    
+    
+    private Action onLoaderCallback;
+    private SceneAssetRequest loadingAsyncOperation;
+
+    public void Load(string sceneName) {
+        
+        onLoaderCallback = () =>
+        {
+            CoroutineMgr.Instance.MyStartCoroutine(LoadSceneAsync(sceneName));
+        };
+
+        // Load the loading scene
+        LoadScene("LoadingScene");
+    }
+    
+    private IEnumerator LoadSceneAsync(string sceneName) {
+        yield return null;
+
+        string scenePath = ABPathUtilities.GetScenePath(sceneName);
+        loadingAsyncOperation = Assets.LoadSceneAsync(scenePath, false);
+
+        while (!loadingAsyncOperation.isDone) {
+            yield return null;
+        }
+        
+        UnLoadScene(scenePath);
+    }
+    
+    public float GetLoadingProgress() {
+        if (loadingAsyncOperation != null) {
+            return loadingAsyncOperation.progress;
+        } else {
+            return 1f;
+        }
+    }
+
+    public void LoaderCallback() {
+        // Triggered after the first Update which lets the screen refresh
+        // Execute the loader callback action which will load the target scene
+        if (onLoaderCallback != null) {
+            onLoaderCallback();
+            onLoaderCallback = null;
+        }
+    }
+    
+    
     //同步加载场景
     public async void LoadScene(string sceneName)
     {
@@ -15,14 +76,19 @@ public class SceneMgr : UnitySingleton<SceneMgr>
         UnLoadScene(scenePath);
     }
     
-    //同步加载场景
-    public void LoadSceneAsync(string sceneName)
+    //异步加载场景
+    public void LoadSceneAsync(string sceneName, Action callback = null)
     {
         string scenePath = ABPathUtilities.GetScenePath(sceneName);
         SceneAssetRequest sceneAssetRequest = Assets.LoadSceneAsync(scenePath, false);
         sceneAssetRequest.completed += (arq) =>
         {
             UnLoadScene(scenePath);
+            if (callback != null)
+            {
+                callback();
+                callback = null;
+            }
         };
     }
 
