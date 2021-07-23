@@ -3,7 +3,7 @@ using System.Collections;
 using SUIFW;
 using UnityEngine;
 
-public class UILobbyLoadingFrom : BaseUIForm
+public class UILoadingFrom : BaseUIForm
 {    
     public Action OnEventCallBack;
     public AnimationEventController animEvent;
@@ -12,7 +12,7 @@ public class UILobbyLoadingFrom : BaseUIForm
     {
         base.OnReady();
         //窗体性质
-        CurrentUIType.UIForms_Type = UIFormType.PopUp;
+        CurrentUIType.UIForms_Type = UIFormType.Normal;
     }
 
     private float animTime = 0;

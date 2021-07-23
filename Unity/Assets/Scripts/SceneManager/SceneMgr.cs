@@ -10,19 +10,6 @@ using XLua;
 [LuaCallCSharp]
 public class SceneMgr : UnitySingleton<SceneMgr>
 {
-    public void LoadLobbyScene(string SceneName)
-    {
-        UILobbyLoadingFrom uiLobbyLoadingFrom = UIManager.GetInstance().ShowUIForms(ProConst.UILOBBY_LOADINGFROM) as UILobbyLoadingFrom;
-        uiLobbyLoadingFrom.OnEventCallBack = () =>
-        {
-            LoadSceneAsync(SceneName, () =>
-            {
-                uiLobbyLoadingFrom.ClosePanel();
-            });    
-        };
-    }
-    
-    
     private Action onLoaderCallback;
     private SceneAssetRequest loadingAsyncOperation;
 
@@ -34,7 +21,11 @@ public class SceneMgr : UnitySingleton<SceneMgr>
         };
 
         // Load the loading scene
-        LoadScene("LoadingScene");
+        UILoadingFrom uiLobbyLoadingFrom = UIManager.GetInstance().ShowUIForms(ProConst.UI_LOADINGFROM) as UILoadingFrom;
+        uiLobbyLoadingFrom.OnEventCallBack = () =>
+        {
+            LoadSceneAsync("LoadingScene", () =>{});    
+        };
     }
     
     private IEnumerator LoadSceneAsync(string sceneName) {
@@ -46,8 +37,6 @@ public class SceneMgr : UnitySingleton<SceneMgr>
         while (!loadingAsyncOperation.isDone) {
             yield return null;
         }
-        
-        UnLoadScene(scenePath);
     }
     
     public float GetLoadingProgress() {
@@ -73,7 +62,6 @@ public class SceneMgr : UnitySingleton<SceneMgr>
     {
         string scenePath = ABPathUtilities.GetScenePath(sceneName);
         await SceneAsync(scenePath);
-        UnLoadScene(scenePath);
     }
     
     //异步加载场景
@@ -83,7 +71,6 @@ public class SceneMgr : UnitySingleton<SceneMgr>
         SceneAssetRequest sceneAssetRequest = Assets.LoadSceneAsync(scenePath, false);
         sceneAssetRequest.completed += (arq) =>
         {
-            UnLoadScene(scenePath);
             if (callback != null)
             {
                 callback();

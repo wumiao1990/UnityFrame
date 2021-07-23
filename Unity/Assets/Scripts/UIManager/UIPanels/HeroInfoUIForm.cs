@@ -32,7 +32,6 @@ public class HeroInfoUIForm : BaseUIForm {
 			{
 				SceneMgr.Instance.Load("LoginScene");
 			}
-
 		);
 	}
 	

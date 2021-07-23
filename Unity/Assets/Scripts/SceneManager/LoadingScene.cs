@@ -10,7 +10,7 @@ public class LoadingScene : MonoBehaviour {
 
     private bool isFirstUpdate = true;
     private void Awake() {
-        image = transform.GetComponent<Image>();
+        
     }
 
     private void Update()
