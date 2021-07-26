@@ -45,7 +45,7 @@ namespace SUIFW
 	    private Transform _TraPopUp = null;
         //UI管理脚本的节点
 	    private Transform _TraUIScripts = null;
-
+        public GameObject canvas;
 
         /// <summary>
         /// 得到实例
@@ -69,7 +69,7 @@ namespace SUIFW
             _DicFormsPaths=new Dictionary<string, string>();
             _StaCurrentUIForms = new Stack<BaseUIForm>();
             //初始化加载（根UI窗体）Canvas预设
-            GameObject canvas = InitRootCanvasLoading();
+            canvas = InitRootCanvasLoading();
 	        //得到UI根节点、全屏节点、固定节点、弹出节点
             _TraCanvasTransfrom = canvas.transform;//GameObject.FindGameObjectWithTag(SysDefine.SYS_TAG_CANVAS).transform;
 	        _TraNormal = UnityHelper.FindTheChildNode(_TraCanvasTransfrom.gameObject, SysDefine.SYS_NORMAL_NODE);

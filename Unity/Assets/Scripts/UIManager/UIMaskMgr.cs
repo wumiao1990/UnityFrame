@@ -51,7 +51,7 @@ namespace SUIFW
 	    void Awake()
 	    {
             //得到UI根节点对象、脚本节点对象
-	        _GoCanvasRoot = GameObject.FindGameObjectWithTag(SysDefine.SYS_TAG_CANVAS);
+            _GoCanvasRoot = UIManager.GetInstance().canvas;//GameObject.FindGameObjectWithTag(SysDefine.SYS_TAG_CANVAS);
 	        _TraUIScriptsNode = UnityHelper.FindTheChildNode(_GoCanvasRoot, SysDefine.SYS_SCRIPTMANAGER_NODE);
             //把本脚本实例，作为“脚本节点对象”的子节点。
             UnityHelper.AddChildNodeToParentNode(_TraUIScriptsNode,this.gameObject.transform);
