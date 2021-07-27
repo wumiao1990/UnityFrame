@@ -226,15 +226,8 @@ namespace SUIFW
         public GameObject OpenUIPanel(string panelName)
         {
             string panelPath = ABPathUtilities.GetUIPath(panelName);
-            GameObject go = ResourcesMgr.Instance.LoadAsset<GameObject>(panelPath);
-            GameObject goObjClone = Instantiate(go);
-            if (goObjClone == null)
-            {
-                Debug.LogError(GetType() + "/LoadAsset()/克隆资源不成功，请检查。 path=" + panelPath);
-            }
-
-            goObjClone.AddComponent<OnGameObjectDestroy>().resName = panelPath;
-            return goObjClone;
+            GameObject go = ResourcesMgr.Instance.Instantiate(panelPath);
+            return go;
         }
 
         /// <summary>

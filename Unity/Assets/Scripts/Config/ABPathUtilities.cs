@@ -18,4 +18,9 @@ public class ABPathUtilities
     {
         return $"Assets/ABRes/PlayGround/UI/{fileName}.png";
     }
+    
+    public static string GetEffectPath(string fileName)
+    {
+        return $"Assets/ABRes/PlayGround/Effect/{fileName}.prefab";
+    }
 }

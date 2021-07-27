@@ -13,10 +13,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using SUIFW;
+using UITools;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SelectHeroUIForm : BaseUIForm
 {
+    #region 控件绑定变量声明，自动生成请勿手改
+
+    [ControlBinding]
+    public Image imgTest;
+
+    #endregion
+
+
     public override void OnReady()
     {
         Log.SyncLogCatchToFile();
@@ -41,5 +51,8 @@ public class SelectHeroUIForm : BaseUIForm
         RigisterButtonObjectEvent("BtnClose",
             m=>CloseUIForm()
         );
+        
+        imgTest.SetSpritePath("MainMenu/Icon_Character");
+        ResourcesMgr.Instance.EffectPerfabOnLoad(imgTest.gameObject,"effect_test", 0);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Threading.Tasks;
 using libx;
 using SDGame;
 using UnityEngine;
@@ -20,6 +21,10 @@ public class OnGameObjectDestroy : MonoBehaviour
 [LuaCallCSharp]
 public class ResourcesMgr : UnitySingleton<ResourcesMgr>
 {
+    //异步时每次等待时间
+    public float _corouWaitingTime = 0.05f;
+    private bool yieldLoading;
+    
     #region Assets
     /// <summary>
     /// 加载资源，path需要是全路径
@@ -55,6 +60,81 @@ public class ResourcesMgr : UnitySingleton<ResourcesMgr>
         assetRequest.completed += (arq) => { tcs.SetResult((T) arq.asset); };
         return tcs.Task;
     }
+    
+    //---------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// 实列化物体
+    /// </summary>
+    /// <param name="resName">名字</param>
+    /// <returns></returns>
+    public GameObject Instantiate(string resPathName)
+    {
+        GameObject go = LoadAsset<GameObject>(resPathName);
+        GameObject goObjClone = Instantiate(go);
+        if (goObjClone == null)
+        {
+            Debug.LogError(GetType() + "/LoadAsset()/克隆资源不成功，请检查。 path=" + resPathName);
+        }
+        goObjClone.AddComponent<OnGameObjectDestroy>().resName = resPathName;
+        return goObjClone;
+    }
+    
+    //---------------------------------------------------------------------------------------------------------
+    /// <summary>
+    /// 异步实列化物体
+    /// </summary>
+    /// <param name="resName">名字</param>
+    /// <returns></returns>
+    public IEnumerator InstantiateAsync(YieldArg yarg)
+    {
+        while (yieldLoading)
+            yield return null;
+        yieldLoading = true;
+        
+        yarg.progress = 1f;
+        yarg.maxProgress = 1.1f;
+        AssetRequest assetRequest = Assets.LoadAssetAsync(yarg.fn, typeof (GameObject));
+        while (!assetRequest.isDone)
+        {
+            yarg.progress += assetRequest.progress * 0.1f;
+            yield return null;
+        }
+        
+        GameObject goObjClone = Instantiate((GameObject)assetRequest.asset);
+        if (goObjClone == null)
+        {
+            Debug.LogError(GetType() + "/InstantiateAsync()/克隆资源不成功，请检查。 path=" + yarg.fn);
+        }
+        goObjClone.AddComponent<OnGameObjectDestroy>().resName = yarg.fn;
+        yarg.result = goObjClone;
+        yarg.isDone = true;
+        
+        yieldLoading = false;
+    }
+    
+    /// <summary>
+    /// 加载特效
+    /// </summary>
+    /// <param name="go">特效父节点</param>
+    /// <param name="Url">Path</param>
+    /// <param name="destroyTime">加载后多久删除</param>
+    public void EffectPerfabOnLoad(GameObject go, string effectPath, float destroyTime = 0)
+    {
+        effectPath = ABPathUtilities.GetEffectPath(effectPath);
+        LoadPerfabOnShow lpos = go.GetComponent<LoadPerfabOnShow>();
+        if (!lpos)
+        {
+            lpos = go.AddComponent<LoadPerfabOnShow>();
+            lpos.EffectGo = null;
+            lpos.prefabUrl = effectPath;
+            lpos.StartLoad();
+        }
+        lpos.m_DestroyTime = destroyTime;
+        lpos.isForceClose = false;
+        lpos.m_StartTime = 0;
+        
+    }
+
     #endregion
     
 }//Class_end
