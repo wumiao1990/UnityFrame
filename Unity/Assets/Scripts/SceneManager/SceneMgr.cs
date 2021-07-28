@@ -61,7 +61,7 @@ public class SceneMgr : UnitySingleton<SceneMgr>
     public async void LoadScene(string sceneName)
     {
         string scenePath = ABPathUtilities.GetScenePath(sceneName);
-        await SceneAsync(scenePath);
+        SceneAssetRequest sceneAssetRequest = await SceneAsync(scenePath);
     }
     
     //异步加载场景

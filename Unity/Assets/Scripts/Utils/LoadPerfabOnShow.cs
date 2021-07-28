@@ -51,6 +51,7 @@ public class LoadPerfabOnShow : MonoBehaviour
             if (!t)
             {
                 CoroutineMgr.Instance.MyStartCoroutine(LoadPrefab());
+                //loadPrefabTask();
             }
             else
             {
@@ -91,11 +92,21 @@ public class LoadPerfabOnShow : MonoBehaviour
             }
         }
     }
+
+    async void loadPrefabTask()
+    {
+        GameObject go = await ResourcesMgr.Instance.InstantiateTask(prefabUrl);
+        if (EffectGo || !this)
+        {
+            Destroy(go);
+            return;
+        }
+        SetGameObject(go);
+    }
     
     IEnumerator LoadPrefab()
     {
         YieldArg yarg = new YieldArg(prefabUrl);
-        AssetRequest request = new AssetRequest();
         
         CoroutineMgr.Instance.MyStartCoroutine(ResourcesMgr.Instance.InstantiateAsync(yarg));
         

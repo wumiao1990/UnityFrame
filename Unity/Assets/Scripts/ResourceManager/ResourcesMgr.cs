@@ -113,6 +113,23 @@ public class ResourcesMgr : UnitySingleton<ResourcesMgr>
     }
     
     /// <summary>
+    /// 异步实列化物体,使用Task
+    /// </summary>
+    /// <param name="yarg"></param>
+    /// <returns></returns>
+    public async Task<GameObject> InstantiateTask(string resName)
+    {
+        GameObject go = await LoadAssetAsync<GameObject>(resName);
+        GameObject goObjClone = Instantiate(go);
+        if (goObjClone == null)
+        {
+            Debug.LogError(GetType() + "/InstantiateAsync()/克隆资源不成功，请检查。 path=" + resName);
+        }
+        goObjClone.AddComponent<OnGameObjectDestroy>().resName = resName;
+        return goObjClone;
+    }
+    
+    /// <summary>
     /// 加载特效
     /// </summary>
     /// <param name="go">特效父节点</param>

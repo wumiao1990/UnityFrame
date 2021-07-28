@@ -52,7 +52,9 @@ public class SelectHeroUIForm : BaseUIForm
             m=>CloseUIForm()
         );
         
-        imgTest.SetSpritePath("MainMenu/Icon_Character");
+        imgTest.SetSpritePath("MainMenu/Icon_Character"); // 同步
+        //imgTest.SetSpritePathAsync("MainMenu/Icon_Character");//异步
+        
         ResourcesMgr.Instance.EffectPerfabOnLoad(imgTest.gameObject,"effect_test", 0);
     }
 }
