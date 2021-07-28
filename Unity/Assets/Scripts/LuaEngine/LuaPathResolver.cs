@@ -1,4 +1,5 @@
 using System.IO;
+using libx;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -24,40 +25,38 @@ public class NgameLuaPathResolver
     {
         get
         {
-#if _AB_MODE_
-            // if (UtilForMacro.Is64BitArchitecture())
-            // {
-            //     return "script/luas64/{0}";
-            // }
-            // else
-            // {
-            //     return "script/luas32/{0}";
-            // }
-            return "script/luas32_64/{0}";
-#else
+            if (Assets.runtimeMode)
+            {
+                return "Assets/ABRes/PlayGround/script/luas32_64/{0}.txt";    
+            }
             return Application.dataPath + "/ABRes/Lua/{0}.lua";
-#endif
         }
     }
 
     public byte[] ReadLua(string luaPath)
     {
         byte[] content = null;
+        
+        if (Assets.runtimeMode)
+        {
+            //luaPath = flatten.Replace(luaPath, "+");
 
-#if _AB_MODE_
-        //luaPath = flatten.Replace(luaPath, "+");
+            var holder = ResourcesMgr.Instance;
+            var asset = holder.LoadAsset<TextAsset>(string.Format(LUA_LOCATION, luaPath));
 
-        var holder = AssetBundleManager.Instance;
-        var asset = holder.LoadAsset<TextAsset>(holder.MonoObj, string.Format(LUA_LOCATION, luaPath), true);
-
-        if (asset != null) content = asset.bytes;
-#else
+            if (asset != null)
+            {
+                content = asset.bytes;
+            }
+            return content;
+        }
+        
         var realPath = string.Format(LUA_LOCATION, luaPath);
         if (File.Exists(realPath))
         {
             content = File.ReadAllBytes(realPath);
         }
-#endif
+
         return content;
     }
 }
