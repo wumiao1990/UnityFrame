@@ -7,7 +7,7 @@ function OnReady()
 	RigisterButtonObjectEvent(Btn_Close, function()		
 		CloseUIForm()
 	end)
-	
+    print(_VERSION)
 	--self.CsharpPanel:SetUpdate(true)
 end
 
