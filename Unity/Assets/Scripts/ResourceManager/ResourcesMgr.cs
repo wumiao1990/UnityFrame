@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Threading.Tasks;
 using libx;
-using SDGame;
 using UnityEngine;
 using XLua;
 
@@ -19,7 +18,7 @@ public class OnGameObjectDestroy : MonoBehaviour
 }
 
 [LuaCallCSharp]
-public class ResourcesMgr : UnitySingleton<ResourcesMgr>
+public class ResourcesMgr : MonoSingleton<ResourcesMgr>
 {
     //异步时每次等待时间
     public float _corouWaitingTime = 0.05f;

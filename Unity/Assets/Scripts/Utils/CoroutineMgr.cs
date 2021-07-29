@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using SDGame;
 
 
-public class CoroutineMgr : UnitySingleton<CoroutineMgr>
+public class CoroutineMgr : MonoSingleton<CoroutineMgr>
 {
     public Coroutine MyStartCoroutine(IEnumerator co)
     {

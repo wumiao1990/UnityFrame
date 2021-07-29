@@ -2,13 +2,11 @@
 using System.Collections;
 using System.Threading.Tasks;
 using libx;
-using SDGame;
 using SUIFW;
-using UnityEngine;
 using XLua;
 
 [LuaCallCSharp]
-public class SceneMgr : UnitySingleton<SceneMgr>
+public class SceneMgr : MonoSingleton<SceneMgr>
 {
     private Action onLoaderCallback;
     private SceneAssetRequest loadingAsyncOperation;

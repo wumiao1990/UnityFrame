@@ -113,7 +113,7 @@ namespace BaseTouchSystem
         /// </summary>
         public static void ComputeVirtualScreen()
         {
-            VirtualScreen.instance.ComputeScreen();
+            VirtualScreen.Instance.ComputeScreen();
         }
 
         /// <summary>
