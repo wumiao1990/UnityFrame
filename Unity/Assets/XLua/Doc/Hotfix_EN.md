@@ -48,7 +48,9 @@ util.hotfix_ex(class, method_name, fix)
 
 Like other configurations, there are two methods:
 
-Configure a list in the static field or property of a static type. Properties can be used to implement more complex configurations, such as whitelisting based on Namespace. 
+1. Add Hotfix flag directly in the type;
+
+2. Configure a list in the static field or property of a static type. Properties can be used to implement more complex configurations, such as whitelisting based on Namespace.
 
 ~~~csharp
 public static class HotfixCfg

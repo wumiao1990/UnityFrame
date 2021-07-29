@@ -24,7 +24,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using System.Diagnostics;
-#if UNITY_2019_1_OR_NEWER
+#if UNITY_2019
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 #endif
@@ -1589,7 +1589,7 @@ namespace XLua
 
 namespace XLua
 {
-#if UNITY_2019_1_OR_NEWER
+#if UNITY_2019
     class MyCustomBuildProcessor : IPostBuildPlayerScriptDLLs
     {
         public int callbackOrder { get { return 0; } }
@@ -1615,7 +1615,7 @@ namespace XLua
             return false;
         }
 
-#if !UNITY_2019_1_OR_NEWER
+#if !UNITY_2019
         [PostProcessScene]
 #endif
         [MenuItem("XLua/Hotfix Inject In Editor", false, 3)]
