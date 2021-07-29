@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 public class CI
@@ -140,7 +141,7 @@ public class CI
 
                         req.onEdge += delegate ()
                         {
-                            File.Move(targetPath32_64, targetPath32_64.Replace(".lua", ".txt"));
+                            File.Move(targetPath32_64, targetPath32_64.Replace(".lua", ".bytes"));
                         };
                     }
                 }

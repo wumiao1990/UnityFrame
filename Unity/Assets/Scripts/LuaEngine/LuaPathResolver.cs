@@ -27,7 +27,7 @@ public class NgameLuaPathResolver
         {
             if (Assets.runtimeMode)
             {
-                return "Assets/ABRes/PlayGround/script/luas32_64/{0}.txt";    
+                return "Assets/ABRes/PlayGround/script/luas32_64/{0}.bytes";    
             }
             return Application.dataPath + "/ABRes/Lua/{0}.lua";
         }
@@ -39,10 +39,14 @@ public class NgameLuaPathResolver
         
         if (Assets.runtimeMode)
         {
-            //luaPath = flatten.Replace(luaPath, "+");
-
+            string path = string.Format(LUA_LOCATION, luaPath);
+            if (Assets.IsExistABPath(path) == false)
+            {
+                return null;
+            }
+            
             var holder = ResourcesMgr.Instance;
-            var asset = holder.LoadAsset<TextAsset>(string.Format(LUA_LOCATION, luaPath));
+            var asset = holder.LoadAsset<TextAsset>(path);
 
             if (asset != null)
             {

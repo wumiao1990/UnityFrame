@@ -354,6 +354,21 @@ namespace libx
             Debug.LogError("资源没有收集打包" + path);
             return path;
         }
+        
+        public static bool IsExistABPath(string path)
+        {
+            if (_assetToBundles.ContainsKey(path))
+                return true;
+
+            foreach (var item in _searchPaths)
+            {
+                var existPath = string.Format("{0}/{1}", item, path);
+                if (_assetToBundles.ContainsKey(existPath))
+                    return true;
+            }
+            
+            return false;
+        }
 
         #endregion
 

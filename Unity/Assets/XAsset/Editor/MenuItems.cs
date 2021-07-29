@@ -127,7 +127,7 @@ namespace libx
         }
 
         [MenuItem(KBuildAssetBundles)]
-        private static void BuildAssetBundles()
+        public static void BuildAssetBundles()
         {
             var watch = new Stopwatch();
             watch.Start();
