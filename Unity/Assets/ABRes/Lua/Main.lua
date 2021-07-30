@@ -1,3 +1,6 @@
+-- 全局模块
+require("Common/MainUtil")
+require ("Global/Global")
 require("commonFunc")
 require("Events")
 
