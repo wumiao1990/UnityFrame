@@ -27,7 +27,7 @@ public class StartProject : MonoBehaviour {
         UIPathHelper.Init();
         
         //加载登陆窗体
-        UIManager.GetInstance().ShowUIForms(ProConst.LOGON_FROMS);
+        UIManager.Instance.ShowUIForms(ProConst.LOGON_FROMS);
 	}
 	
 }

@@ -74,7 +74,7 @@ namespace SUIFW
             //设置模态窗体调用(必须是弹出窗体)
             if (_CurrentUIType.UIForms_Type==UIFormType.PopUp)
             {
-                UIMaskMgr.GetInstance().SetMaskWindow(this.gameObject,_CurrentUIType.UIForm_LucencyType);
+                UIMaskMgr.Instance.SetMaskWindow(this.gameObject,_CurrentUIType.UIForm_LucencyType);
             }
 	    }
 
@@ -87,7 +87,7 @@ namespace SUIFW
             //取消模态窗体调用
             if (_CurrentUIType.UIForms_Type == UIFormType.PopUp)
             {
-                UIMaskMgr.GetInstance().CancelMaskWindow();
+                UIMaskMgr.Instance.CancelMaskWindow();
             }
         }
 
@@ -100,7 +100,7 @@ namespace SUIFW
             //设置模态窗体调用(必须是弹出窗体)
             if (_CurrentUIType.UIForms_Type == UIFormType.PopUp)
             {
-                UIMaskMgr.GetInstance().SetMaskWindow(this.gameObject, _CurrentUIType.UIForm_LucencyType);
+                UIMaskMgr.Instance.SetMaskWindow(this.gameObject, _CurrentUIType.UIForm_LucencyType);
             }
         }
 
@@ -159,7 +159,7 @@ namespace SUIFW
         /// <param name="uiFormName"></param>
 	    protected void OpenUIForm(string uiFormName)
         {
-            UIManager.GetInstance().ShowUIForms(uiFormName);
+            UIManager.Instance.ShowUIForms(uiFormName);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace SUIFW
                 strUIFromName = strUIFromName.Substring(intPosition + 1);
             }
 
-            UIManager.GetInstance().CloseUIForms(strUIFromName);
+            UIManager.Instance.CloseUIForms(strUIFromName);
         }
 
         /// <summary>

@@ -24,9 +24,7 @@ using XLua;
 
 namespace SUIFW
 {
-	public class UIManager : MonoBehaviour {
-        /* 字段 */
-	    private static UIManager _Instance = null;
+	public class UIManager : MonoSingleton<UIManager> {
         //UI窗体预设路径(参数1：窗体预设名称，2：表示窗体预设路径)
 	    private Dictionary<string, string> _DicFormsPaths; 
         //缓存所有UI窗体
@@ -47,18 +45,6 @@ namespace SUIFW
 	    private Transform _TraUIScripts = null;
         public GameObject canvas;
 
-        /// <summary>
-        /// 得到实例
-        /// </summary>
-        /// <returns></returns>
-	    public static UIManager GetInstance()
-	    {
-	        if (_Instance==null)
-	        {
-	            _Instance = new GameObject("_UIManager").AddComponent<UIManager>();
-	        }
-	        return _Instance;
-	    }
 
         //初始化核心数据，加载“UI窗体路径”到集合中。
 	    public void Awake()

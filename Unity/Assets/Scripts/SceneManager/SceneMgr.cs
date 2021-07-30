@@ -19,7 +19,7 @@ public class SceneMgr : MonoSingleton<SceneMgr>
         };
 
         // Load the loading scene
-        UILoadingFrom uiLobbyLoadingFrom = UIManager.GetInstance().ShowUIForms(ProConst.UI_LOADINGFROM) as UILoadingFrom;
+        UILoadingFrom uiLobbyLoadingFrom = UIManager.Instance.ShowUIForms(ProConst.UI_LOADINGFROM) as UILoadingFrom;
         uiLobbyLoadingFrom.OnEventCallBack = () =>
         {
             LoadSceneAsync("LoadingScene", () =>{});    

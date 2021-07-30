@@ -13,7 +13,7 @@ public class LoadingCallback : MonoBehaviour {
             isFirstUpdate = false;
             
             //清理资源
-            UIManager.GetInstance().DestroyAllPanel();
+            UIManager.Instance.DestroyAllPanel();
             
             NgameLua.FullLuaGC();
             GC.Collect();

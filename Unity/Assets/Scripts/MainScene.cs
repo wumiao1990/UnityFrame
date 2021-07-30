@@ -8,7 +8,7 @@ public class MainScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {      
-        UIManager.GetInstance().ShowUIForms(ProConst.MAIN_CITY_UIFORM);		
-        UIManager.GetInstance().ShowUIForms(ProConst.HERO_INFO_UIFORM);		
+        UIManager.Instance.ShowUIForms(ProConst.MAIN_CITY_UIFORM);		
+        UIManager.Instance.ShowUIForms(ProConst.HERO_INFO_UIFORM);		
     }
 }
